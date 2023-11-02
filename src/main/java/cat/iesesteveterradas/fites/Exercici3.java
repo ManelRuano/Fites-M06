@@ -1,6 +1,13 @@
 package cat.iesesteveterradas.fites;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -30,12 +37,28 @@ public class Exercici3 {
         llista0.add(new Exercici3nau("Crew Dragon", "US", 2020));
 
         // Escriure la llista0 a l'arxiu 'filePath'
-
+        File outputFile = new File(filePath);
+         // Escriure l'objecte List al fitxer
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(outputFile))) {
+            oos.writeObject(llista0);
+            System.out.println("Llista de persones guardada a " + outputFile.getAbsolutePath());
+        } catch (IOException e) {
+            System.out.println("Hi ha hagut un problema escrivint al fitxer: " + e.getMessage());
+        }
         try {
-            TimeUnit.MILLISECONDS.sleep(1000);
+            System.out.println("Espera");
+            TimeUnit.MILLISECONDS.sleep(6000);
         } catch (InterruptedException e) { e.printStackTrace(); }
 
         // Llegir l'arxiu 'filePath' en una variable 'llista1'
         // i printa pel terminal cada un dels seus objectes línia a línia
+        try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(outputFile))) {
+            List<Exercici3nau> llista1 = (List<Exercici3nau>) input.readObject();
+            for (Exercici3nau persona : llista1) {
+                System.out.println(persona.toString());
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Hi ha hagut un problema llegint el fitxer: " + e.getMessage());
+        }
     }  
 }

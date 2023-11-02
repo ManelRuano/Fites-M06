@@ -1,5 +1,6 @@
 package cat.iesesteveterradas.fites;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Objects;
  * el necessari.
  */
 
-public class Exercici3nau {
+public class Exercici3nau implements Serializable{
     private static final long serialVersionUID = 1L;
 
     String nom;
