@@ -29,8 +29,8 @@ public class Exercici3nau {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Exercici3nauSolucio)) return false;
-        Exercici3nauSolucio that = (Exercici3nauSolucio) o;
+        if (!(o instanceof Exercici3nau)) return false;
+        Exercici3nau that = (Exercici3nau) o;
         return any == that.any &&
                 Objects.equals(nom, that.nom) &&
                 Objects.equals(pais, that.pais);

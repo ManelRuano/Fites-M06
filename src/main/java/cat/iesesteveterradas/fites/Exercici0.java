@@ -1,8 +1,6 @@
 package cat.iesesteveterradas.fites;
 
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -15,25 +13,35 @@ import java.util.ArrayList;
  */
 
 public class Exercici0 {
-    public static void main(String args[]) {
+    
+    public static void main(String[] args) {
         String basePath = System.getProperty("user.dir") + "/data/exercici0/";
         String filePath = basePath + "Exercici0.dat";
-
-        boolean existeix = false;
+        
+        File file = new File(filePath);
+        
+        boolean existeix = file.exists();
         System.out.println("L'arxiu existeix: " + existeix);
 
-        boolean ocult = false;
+        boolean ocult = file.isHidden();
         System.out.println("L'arxiu és ocult: " + ocult);
 
-        Date modificat = new Date(0);
-        DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyy hh:mm:ss");  
-        String strModificat = dateFormat.format(modificat);  
-        System.out.println("Última modificació: " + strModificat);
+        long modificatMillis = file.lastModified();
+        java.util.Date modificat = new java.util.Date(modificatMillis);
+        System.out.println("Última modificació: " + modificat);
 
-        boolean esPotModificar = true;
+        boolean esPotModificar = file.canWrite();
         System.out.println("L'arxiu es pot modificar: " + esPotModificar);
 
-        ArrayList<String> llistaArxius = new ArrayList<>();
-        System.out.println("La llista d'arxius d'aquesta carpeta és: " + llistaArxius);
+        File[] arxius = file.getParentFile().listFiles();
+        if (arxius != null) {
+            ArrayList<String> llistaArxius = new ArrayList<>();
+            for (File arxiu : arxius) {
+                llistaArxius.add(arxiu.getName());
+            }
+            System.out.println("La llista d'arxius d'aquesta carpeta és: " + llistaArxius);
+        } else {
+            System.out.println("La carpeta no conté arxius.");
+        }
     }
 }
