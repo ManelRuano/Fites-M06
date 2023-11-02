@@ -75,18 +75,18 @@ public class Exercici4 {
             doc.appendChild(rootElement);
 
             // Crear elementos para cada lenguaje
-            for (String[] languageData : llista) {
+            for (String[] tipos : llista) {
                 Element lenguatge = doc.createElement("llenguatge");
-                lenguatge.setAttribute("dificultat", languageData[3]);
-                lenguatge.setAttribute("extensio", languageData[2]);
+                lenguatge.setAttribute("dificultat", tipos[3]);
+                lenguatge.setAttribute("extensio", tipos[2]);
                 rootElement.appendChild(lenguatge);
 
                 Element nom = doc.createElement("nom");
-                nom.appendChild(doc.createTextNode(languageData[0]));
+                nom.appendChild(doc.createTextNode(tipos[0]));
                 lenguatge.appendChild(nom);
 
                 Element any = doc.createElement("any");
-                any.appendChild(doc.createTextNode(languageData[1]));
+                any.appendChild(doc.createTextNode(tipos[1]));
                 lenguatge.appendChild(any);
             }
 
