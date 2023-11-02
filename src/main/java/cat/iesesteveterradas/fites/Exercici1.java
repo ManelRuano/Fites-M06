@@ -1,6 +1,8 @@
 package cat.iesesteveterradas.fites;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
@@ -20,32 +22,47 @@ import java.util.Scanner;
  */
 
 public class Exercici1 {
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         String basePathIn = System.getProperty("user.dir") + "/src/main/java/cat/iesesteveterradas/fites/";
         String basePathOut = System.getProperty("user.dir") + "/data/exercici1/";
         String filePathIn = basePathIn + "Exercici1.java";
         String filePathOut = basePathOut + "Exercici1Solucio.txt";
 
         try {
-            FileWriter fOut = new FileWriter(filePathOut);            
+            FileWriter fOut = new FileWriter(filePathOut);
             File file = new File(filePathIn);
-            Scanner scnr = new Scanner(file);
+            Scanner scaner = new Scanner(file);
 
-            // Bucle que llegeix línia a línia 'filePathIn'
-            // i escriu línia a línia 'filePathOut' amb el text girat
+            while (scaner.hasNextLine()) {
+                String line = scaner.nextLine();
+                String reversedLine = giraText(line);
+                fOut.write(reversedLine + "\n");
+            }
 
-            scnr.close();
+            scaner.close();
             fOut.close();
+            System.out.println("Proceso completado. Resultado en " + filePathOut);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePathOut))) {
+            String line;
+            int lineNumber = 1;
+
+            while ((line = reader.readLine()) != null) {
+                System.out.printf("%d: %s%n", lineNumber++, line);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static String giraText (String text) {
-        String resultat = "";
-        for(int cnt = text.length() - 1; cnt >= 0; cnt--) {
-            resultat = resultat + text.charAt(cnt);
+    public static String giraText(String text) {
+        StringBuilder reversedText = new StringBuilder();
+        for (int i = text.length() - 1; i >= 0; i--) {
+            reversedText.append(text.charAt(i));
         }
-        return resultat;
+        return reversedText.toString();
     }
+    
 }

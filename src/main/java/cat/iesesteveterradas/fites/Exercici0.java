@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 
 public class Exercici0 {
-    
+
     public static void main(String[] args) {
         String basePath = System.getProperty("user.dir") + "/data/exercici0/";
         String filePath = basePath + "Exercici0.dat";
@@ -40,6 +40,7 @@ public class Exercici0 {
                 llistaArxius.add(arxiu.getName());
             }
             System.out.println("La llista d'arxius d'aquesta carpeta és: " + llistaArxius);
+            
         } else {
             System.out.println("La carpeta no conté arxius.");
         }
