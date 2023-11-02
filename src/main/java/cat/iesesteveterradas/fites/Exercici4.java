@@ -1,23 +1,3 @@
-package cat.iesesteveterradas.fites;
-
-import java.io.File;
-import java.util.ArrayList;
-
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 /**
  * Amb Java, crea un arxiu XML "Exercici4.xml" amb l'estructura especificada.
  *
@@ -47,6 +27,32 @@ import org.w3c.dom.NodeList;
  * java Exercici4
  */
 
+package cat.iesesteveterradas.fites;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Element;
+
+
+
 public class Exercici4 {
     public static void main(String args[]) {
         String basePath = System.getProperty("user.dir") + "/data/exercici4/";
@@ -59,10 +65,39 @@ public class Exercici4 {
         llista.add(new String[] {"Objective C", "1984", ".m", "baixa"});
         llista.add(new String[] {"Dart", "2011", ".dart", "mitjana"});
 
-        // Genera l'estructura XML a partir de les dades proporcionades
+        try {
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
-        // Guarda l'estructura generada a l'arxiu 'filePath'
+            // Crear el elemento raíz
+            Document doc = docBuilder.newDocument();
+            Element rootElement = doc.createElement("llista");
+            doc.appendChild(rootElement);
+
+            // Crear elementos para cada lenguaje
+            for (String[] languageData : llista) {
+                Element lenguatge = doc.createElement("llenguatge");
+                lenguatge.setAttribute("dificultat", languageData[3]);
+                lenguatge.setAttribute("extensio", languageData[2]);
+                rootElement.appendChild(lenguatge);
+
+                Element nom = doc.createElement("nom");
+                nom.appendChild(doc.createTextNode(languageData[0]));
+                lenguatge.appendChild(nom);
+
+                Element any = doc.createElement("any");
+                any.appendChild(doc.createTextNode(languageData[1]));
+                lenguatge.appendChild(any);
+            }
+
+            // Configurar el formato de salida XML
+            write(filePath, doc);
+            System.out.println("XML guardado en " + filePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
 
     // Escriu un Document en un fitxer XML
     static public void write (String path, Document doc) {
